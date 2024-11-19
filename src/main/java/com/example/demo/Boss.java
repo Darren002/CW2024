@@ -75,8 +75,10 @@ public class Boss extends FighterPlane {
 	}
 
 	public void updateShield() {
-		shieldImage.setLayoutX(getLayoutX() + getTranslateX());
-		shieldImage.setLayoutY(getLayoutY() + getTranslateY());
+		double offsetX= -65;
+		double offsetY= 50;
+		shieldImage.setLayoutX(getLayoutX() + getTranslateX() +offsetX);
+		shieldImage.setLayoutY(getLayoutY() + getTranslateY()+offsetY);
 
 		shieldImage.showShield();
 
