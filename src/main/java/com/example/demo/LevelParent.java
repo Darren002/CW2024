@@ -182,11 +182,10 @@ public abstract class LevelParent extends Observable {
 		handleCollisions(enemyProjectiles, friendlyUnits);
 	}
 
-	private void handleCollisions(List<ActiveActorDestructible> actors1,
-			List<ActiveActorDestructible> actors2) {
+	private void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
 		for (ActiveActorDestructible actor : actors2) {
 			for (ActiveActorDestructible otherActor : actors1) {
-				if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
+				if (actor.getHitbox().intersects(otherActor.getHitbox().getBoundsInParent())) {
 					actor.takeDamage();
 					otherActor.takeDamage();
 				}
