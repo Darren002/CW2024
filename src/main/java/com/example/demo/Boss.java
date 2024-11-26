@@ -18,7 +18,7 @@ public class Boss extends FighterPlane {
 	private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
-	private static final int Y_POSITION_UPPER_BOUND = -100;
+	private static final int Y_POSITION_UPPER_BOUND = -50;
 	private static final int Y_POSITION_LOWER_BOUND = 475;
 	private static final int MAX_FRAMES_WITH_SHIELD = 500;
 	private final List<Integer> movePattern;
@@ -29,6 +29,7 @@ public class Boss extends FighterPlane {
 	private final ShieldImage shieldImage;
 	private final Rectangle hitbox;
 	private static final double HITBOX_OFFSET_Y=50;
+	private final HealthBar healthBar;
 
 	public Boss() {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, HEALTH);
@@ -41,6 +42,10 @@ public class Boss extends FighterPlane {
 		hitbox= new Rectangle(INITIAL_X_POSITION,INITIAL_Y_POSITION,213,85);
 
 		shieldImage = new ShieldImage(getLayoutX(),getLayoutY());
+		healthBar = new HealthBar(200, 15);
+		healthBar.setLayoutX(getLayoutX() + 5);
+		healthBar.setTranslateY(40);
+
 	}
 
 	@Override
@@ -53,22 +58,27 @@ public class Boss extends FighterPlane {
 		}
 		updateHitbox();
 	}
-	
+
 	@Override
 	public void updateActor() {
 		updatePosition();
 		updateShield();
+		updateHealthBar();
 	}
 
 	@Override
 	public ActiveActorDestructible fireProjectile() {
 		return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
 	}
-	
+
 	@Override
 	public void takeDamage() {
 		if (!isShielded) {
 			super.takeDamage();
+			if (getHealth() <= 0) {
+				healthBar.updateHealth(0, HEALTH);
+				healthBar.setVisible(false);
+			}
 		}
 	}
 
@@ -152,4 +162,15 @@ public class Boss extends FighterPlane {
 	public Rectangle getHitbox(){
 		return hitbox;
 	}
+
+	private void updateHealthBar() {
+		healthBar.setLayoutX(getLayoutX() + getTranslateX() + 5);
+		healthBar.setLayoutY(getLayoutY() + getTranslateY() + 10);
+		healthBar.updateHealth(Math.max(getHealth(), 0), HEALTH);
+	}
+
+	public HealthBar getHealthBar() {
+		return healthBar;
+	}
+
 }
