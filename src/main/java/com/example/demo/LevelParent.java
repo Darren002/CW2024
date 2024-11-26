@@ -223,6 +223,7 @@ public abstract class LevelParent extends Observable {
 
 	protected void loseGame() {
 		timeline.stop();
+		root.getChildren().clear();
 		levelView.showGameOverImage();
 	}
 
