@@ -72,7 +72,7 @@ public abstract class LevelParent extends Observable {
 	private void initializePauseUI() {
 		pauseText = new Text("PAUSED");
 		pauseText.setFill(Color.WHITE);
-		pauseText.setFont(loadRetroFont(80));
+		pauseText.setFont(loadRetroFont(70));
 		pauseText.setVisible(false);
 		pauseText.setX(screenWidth / 2 - pauseText.getLayoutBounds().getWidth() / 2);
 		pauseText.setY(screenHeight / 2 + pauseText.getLayoutBounds().getHeight() / 4);
@@ -366,7 +366,7 @@ if(!isPaused) {
 		burstReadyText = new Text("BURST READY! PRESS [B]");
 		burstReadyText.setFill(Color.LIGHTGREEN);
 		burstReadyText.setFont(loadRetroFont(20));
-		burstReadyText.setX(screenWidth / 2 - 65);
+		burstReadyText.setX((screenWidth - burstReadyText.getLayoutBounds().getWidth()) / 2);
 		burstReadyText.setY(50);
 		burstReadyText.setVisible(true);
 		burstReadyText.setStyle("-fx-effect: dropshadow(gaussian, limegreen, 10, 0.5, 0, 0);");
@@ -393,7 +393,7 @@ if(!isPaused) {
 	}
 	private Font loadRetroFont(double size) {
 		try {
-			URL fontURL = getClass().getResource("Fonts/font.ttf");
+			URL fontURL = getClass().getResource("/Fonts/font.ttf");
 			if (fontURL != null) {
 				return Font.loadFont(fontURL.toExternalForm(), size);
 			} else {
