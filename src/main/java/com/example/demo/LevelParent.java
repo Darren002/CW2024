@@ -1,14 +1,15 @@
 package com.example.demo;
 
+import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 import javafx.animation.*;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -40,9 +41,8 @@ public abstract class LevelParent extends Observable {
 	private boolean spacebarPressed = false;
 	private boolean bKeyPressed = false;
 	private boolean canShoot = true;
-	private double isInBurstMode = 0;
-
-	private Timeline burstTimer;
+	private Text burstReadyText;
+	private Timeline blinkAnimation;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -72,6 +72,7 @@ public abstract class LevelParent extends Observable {
 	public Scene initializeScene() {
 		initializeBackground();
 		initializeFriendlyUnits();
+		initializeBurstReadyText();
 		levelView.showHeartDisplay();
 		return scene;
 	}
@@ -138,6 +139,8 @@ public abstract class LevelParent extends Observable {
 			shootBurst();
 			bKeyPressed = true;
 			canShoot = false;
+			hideBurstReadyText();
+
 			Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> canShoot = true));
 			cooldown.setCycleCount(1);
 			cooldown.play();
@@ -177,9 +180,7 @@ public abstract class LevelParent extends Observable {
 		int delayBetweenShots = 100;
 
 		Timeline burstTimeline = new Timeline();
-
 		for (int i = 0; i < burstCount; i++) {
-			int shotIndex = i;
 			KeyFrame frame = new KeyFrame(Duration.millis(i * delayBetweenShots), e -> {
 				ActiveActorDestructible projectile = user.fireProjectile();
 				root.getChildren().add(projectile);
@@ -187,10 +188,20 @@ public abstract class LevelParent extends Observable {
 			});
 			burstTimeline.getKeyFrames().add(frame);
 		}
-
 		burstTimeline.setCycleCount(1);
 		burstTimeline.play();
+
+		canShoot = false;
+		hideBurstReadyText();
+
+		Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> {
+			canShoot = true;
+			showBurstReadyText();
+		}));
+		cooldown.setCycleCount(1);
+		cooldown.play();
 	}
+
 
 
 	private void generateEnemyFire() {
@@ -315,5 +326,47 @@ public abstract class LevelParent extends Observable {
 	private void updateNumberOfEnemies() {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
+	private void initializeBurstReadyText() {
+		burstReadyText = new Text("BURST READY! PRESS [B]");
+		burstReadyText.setFill(Color.LIGHTGREEN);
+		burstReadyText.setFont(loadRetroFont(20));
+		burstReadyText.setX(screenWidth / 2 - 65);
+		burstReadyText.setY(50);
+		burstReadyText.setVisible(true);
+		burstReadyText.setStyle("-fx-effect: dropshadow(gaussian, limegreen, 10, 0.5, 0, 0);");
+		root.getChildren().add(burstReadyText);
 
+		blinkAnimation = new Timeline(
+				new KeyFrame(Duration.seconds(0.5), e -> burstReadyText.setOpacity(1)),
+				new KeyFrame(Duration.seconds(1), e -> burstReadyText.setOpacity(0))
+		);
+		blinkAnimation.setCycleCount(Timeline.INDEFINITE);
+	}
+
+
+	private void showBurstReadyText() {
+		if (canShoot) {
+			burstReadyText.setVisible(true);
+			blinkAnimation.play();
+		}
+	}
+
+	private void hideBurstReadyText() {
+		burstReadyText.setVisible(false);
+		blinkAnimation.stop();
+	}
+	private Font loadRetroFont(double size) {
+		try {
+			URL fontURL = getClass().getResource("Fonts/font.ttf");
+			if (fontURL != null) {
+				return Font.loadFont(fontURL.toExternalForm(), size);
+			} else {
+				System.out.println("Font not found. Using default font.");
+				return Font.font("Arial", size);
+			}
+		} catch (Exception e) {
+			System.out.println("Error loading font. Using default font.");
+			return Font.font("Arial", size);
+		}
+	}
 }
