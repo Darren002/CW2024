@@ -2,19 +2,23 @@ package com.example.demo;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 import javafx.animation.*;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 
 public abstract class LevelParent extends Observable {
 
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 50;
+	private static final double BURST_COOLDOWN_TIME = 4.0;
+
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
@@ -29,9 +33,16 @@ public abstract class LevelParent extends Observable {
 	private final List<ActiveActorDestructible> enemyUnits;
 	private final List<ActiveActorDestructible> userProjectiles;
 	private final List<ActiveActorDestructible> enemyProjectiles;
-	
+
 	private int currentNumberOfEnemies;
 	private LevelView levelView;
+
+	private boolean spacebarPressed = false;
+	private boolean bKeyPressed = false;
+	private boolean canShoot = true;
+	private double isInBurstMode = 0;
+
+	private Timeline burstTimer;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -54,11 +65,8 @@ public abstract class LevelParent extends Observable {
 	}
 
 	protected abstract void initializeFriendlyUnits();
-
 	protected abstract void checkIfGameOver();
-
 	protected abstract void spawnEnemyUnits();
-
 	protected abstract LevelView instantiateLevelView();
 
 	public Scene initializeScene() {
@@ -103,33 +111,59 @@ public abstract class LevelParent extends Observable {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
 		background.setFitWidth(screenWidth);
-		background.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.W) user.moveUp();
-				if (kc == KeyCode.DOWN || kc == KeyCode.S) user.moveDown();
-				if (kc == KeyCode.SPACE ) fireProjectile();
-			}
-		});
-		background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent e) {
-				KeyCode kc = e.getCode();
-				if (kc == KeyCode.UP || kc == KeyCode.W || kc == KeyCode.DOWN || kc == KeyCode.S) {
-					user.stop();
-				}
-			}
-		});
 
-		background.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent e) {
-				if (e.getButton() == MouseButton.PRIMARY) {
-					fireProjectile();
-				}
-			}
-		});
+		background.setOnKeyPressed(this::handleKeyPressed);
+		background.setOnKeyReleased(this::handleKeyReleased);
+		background.setOnMouseClicked(this::handleMouseClick);
 
 		root.getChildren().add(background);
+	}
+
+	private void handleKeyPressed(KeyEvent e) {
+		KeyCode kc = e.getCode();
+
+		if (kc == KeyCode.UP || kc == KeyCode.W) {
+			user.moveUp();
+		}
+		if (kc == KeyCode.DOWN || kc == KeyCode.S) {
+			user.moveDown();
+		}
+
+		if (kc == KeyCode.SPACE && !spacebarPressed) {
+			fireProjectile();
+			spacebarPressed = true;
+		}
+
+		if (kc == KeyCode.B && !bKeyPressed && canShoot) {
+			shootBurst();
+			bKeyPressed = true;
+			canShoot = false;
+			Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> canShoot = true));
+			cooldown.setCycleCount(1);
+			cooldown.play();
+		}
+	}
+
+	private void handleKeyReleased(KeyEvent e) {
+		KeyCode kc = e.getCode();
+
+		if (kc == KeyCode.UP || kc == KeyCode.W || kc == KeyCode.DOWN || kc == KeyCode.S) {
+			user.stop();
+		}
+
+		if (kc == KeyCode.SPACE) {
+			spacebarPressed = false;
+		}
+
+		if (kc == KeyCode.B) {
+			bKeyPressed = false;
+		}
+	}
+
+	private void handleMouseClick(MouseEvent e) {
+		if (e.getButton() == MouseButton.PRIMARY) {
+			fireProjectile();
+		}
 	}
 
 	private void fireProjectile() {
@@ -137,6 +171,27 @@ public abstract class LevelParent extends Observable {
 		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
 	}
+
+	private void shootBurst() {
+		int burstCount = 5;
+		int delayBetweenShots = 100;
+
+		Timeline burstTimeline = new Timeline();
+
+		for (int i = 0; i < burstCount; i++) {
+			int shotIndex = i;
+			KeyFrame frame = new KeyFrame(Duration.millis(i * delayBetweenShots), e -> {
+				ActiveActorDestructible projectile = user.fireProjectile();
+				root.getChildren().add(projectile);
+				userProjectiles.add(projectile);
+			});
+			burstTimeline.getKeyFrames().add(frame);
+		}
+
+		burstTimeline.setCycleCount(1);
+		burstTimeline.play();
+	}
+
 
 	private void generateEnemyFire() {
 		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
@@ -164,7 +219,8 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
-		List<ActiveActorDestructible> destroyedActors = actors.stream().filter(actor -> actor.isDestroyed())
+		List<ActiveActorDestructible> destroyedActors = actors.stream()
+				.filter(ActiveActorDestructible::isDestroyed)
 				.collect(Collectors.toList());
 		root.getChildren().removeAll(destroyedActors);
 		actors.removeAll(destroyedActors);
