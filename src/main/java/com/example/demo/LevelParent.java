@@ -2,16 +2,19 @@ package com.example.demo;
 
 import java.net.URL;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 
 
 public abstract class LevelParent extends Observable {
@@ -43,6 +46,8 @@ public abstract class LevelParent extends Observable {
 	private boolean canShoot = true;
 	private Text burstReadyText;
 	private Timeline blinkAnimation;
+	private Text pauseText;
+	private boolean isPaused = false;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -62,6 +67,15 @@ public abstract class LevelParent extends Observable {
 		this.currentNumberOfEnemies = 0;
 		initializeTimeline();
 		friendlyUnits.add(user);
+		initializePauseUI();
+	}
+	private void initializePauseUI() {
+		pauseText = new Text("PAUSED");
+		pauseText.setFill(Color.WHITE);
+		pauseText.setFont(loadRetroFont(80));
+		pauseText.setVisible(false);
+		pauseText.setX(screenWidth / 2 - pauseText.getLayoutBounds().getWidth() / 2);
+		pauseText.setY(screenHeight / 2 + pauseText.getLayoutBounds().getHeight() / 4);
 	}
 
 	protected abstract void initializeFriendlyUnits();
@@ -88,6 +102,9 @@ public abstract class LevelParent extends Observable {
 	}
 
 	private void updateScene() {
+		if (isPaused) {
+			return;
+		}
 		spawnEnemyUnits();
 		updateActors();
 		generateEnemyFire();
@@ -123,27 +140,47 @@ public abstract class LevelParent extends Observable {
 	private void handleKeyPressed(KeyEvent e) {
 		KeyCode kc = e.getCode();
 
-		if (kc == KeyCode.UP || kc == KeyCode.W) {
-			user.moveUp();
+		if (kc == KeyCode.P) {
+			isPaused = !isPaused;
+			togglePauseUI();
+			return;
 		}
-		if (kc == KeyCode.DOWN || kc == KeyCode.S) {
-			user.moveDown();
-		}
+if(!isPaused) {
+	if (kc == KeyCode.UP || kc == KeyCode.W) {
+		user.moveUp();
+	}
+	if (kc == KeyCode.DOWN || kc == KeyCode.S) {
+		user.moveDown();
+	}
 
-		if (kc == KeyCode.SPACE && !spacebarPressed) {
-			fireProjectile();
-			spacebarPressed = true;
-		}
+	if (kc == KeyCode.SPACE && !spacebarPressed) {
+		fireProjectile();
+		spacebarPressed = true;
+	}
 
-		if (kc == KeyCode.B && !bKeyPressed && canShoot) {
-			shootBurst();
-			bKeyPressed = true;
-			canShoot = false;
-			hideBurstReadyText();
+	if (kc == KeyCode.B && !bKeyPressed && canShoot) {
+		shootBurst();
+		bKeyPressed = true;
+		canShoot = false;
+		hideBurstReadyText();
 
-			Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> canShoot = true));
-			cooldown.setCycleCount(1);
-			cooldown.play();
+		Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> canShoot = true));
+		cooldown.setCycleCount(1);
+		cooldown.play();
+	}
+}
+	}
+
+	private void togglePauseUI() {
+		pauseText.setVisible(isPaused);
+		if (isPaused) {
+			timeline.pause();
+			pauseText.setVisible(true);
+			getRoot().getChildren().add(pauseText);
+		} else {
+			timeline.play();
+			pauseText.setVisible(false);
+			getRoot().getChildren().remove(pauseText);
 		}
 	}
 
@@ -201,7 +238,6 @@ public abstract class LevelParent extends Observable {
 		cooldown.setCycleCount(1);
 		cooldown.play();
 	}
-
 
 
 	private void generateEnemyFire() {
