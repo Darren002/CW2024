@@ -251,7 +251,7 @@ if(!isPaused) {
 		}
 	}
 
-	private void updateActors() {
+	protected void updateActors() {
 		friendlyUnits.forEach(plane -> plane.updateActor());
 		enemyUnits.forEach(enemy -> enemy.updateActor());
 		userProjectiles.forEach(projectile -> projectile.updateActor());
@@ -321,12 +321,12 @@ if(!isPaused) {
 
 	protected void winGame() {
 		timeline.stop();
+		getRoot().getChildren().remove(burstReadyText);
 		levelView.showWinImage();
 	}
 
 	protected void loseGame() {
 		timeline.stop();
-		root.getChildren().clear();
 		levelView.showGameOverImage();
 	}
 
