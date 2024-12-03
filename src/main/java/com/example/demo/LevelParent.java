@@ -14,6 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.animation.PauseTransition;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
 
 
 
@@ -48,6 +52,7 @@ public abstract class LevelParent extends Observable {
 	private Timeline blinkAnimation;
 	private Text pauseText;
 	private boolean isPaused = false;
+	protected Stage stage;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -145,30 +150,30 @@ public abstract class LevelParent extends Observable {
 			togglePauseUI();
 			return;
 		}
-if(!isPaused) {
-	if (kc == KeyCode.UP || kc == KeyCode.W) {
-		user.moveUp();
-	}
-	if (kc == KeyCode.DOWN || kc == KeyCode.S) {
-		user.moveDown();
-	}
+		if (!isPaused) {
+			if (kc == KeyCode.UP || kc == KeyCode.W) {
+				user.moveUp();
+			}
+			if (kc == KeyCode.DOWN || kc == KeyCode.S) {
+				user.moveDown();
+			}
 
-	if (kc == KeyCode.SPACE && !spacebarPressed) {
-		fireProjectile();
-		spacebarPressed = true;
-	}
+			if (kc == KeyCode.SPACE && !spacebarPressed) {
+				fireProjectile();
+				spacebarPressed = true;
+			}
 
-	if (kc == KeyCode.B && !bKeyPressed && canShoot) {
-		shootBurst();
-		bKeyPressed = true;
-		canShoot = false;
-		hideBurstReadyText();
+			if (kc == KeyCode.B && !bKeyPressed && canShoot) {
+				shootBurst();
+				bKeyPressed = true;
+				canShoot = false;
+				hideBurstReadyText();
 
-		Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> canShoot = true));
-		cooldown.setCycleCount(1);
-		cooldown.play();
-	}
-}
+				Timeline cooldown = new Timeline(new KeyFrame(Duration.seconds(BURST_COOLDOWN_TIME), e1 -> canShoot = true));
+				cooldown.setCycleCount(1);
+				cooldown.play();
+			}
+		}
 	}
 
 	private void togglePauseUI() {
@@ -362,6 +367,7 @@ if(!isPaused) {
 	private void updateNumberOfEnemies() {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
+
 	private void initializeBurstReadyText() {
 		burstReadyText = new Text("BURST READY! PRESS [B]");
 		burstReadyText.setFill(Color.LIGHTGREEN);
@@ -405,4 +411,43 @@ if(!isPaused) {
 			return Font.font("Arial", size);
 		}
 	}
+	protected void transitionToNextLevel(Stage stage, String nextLevelClassName, String transitionImagePath, Duration transitionDuration) {
+		showTransitionScreen(
+				stage,
+				transitionImagePath,
+				transitionDuration,
+				() -> {
+					try {
+						Class<?> nextLevelClass = Class.forName(nextLevelClassName);
+						LevelParent nextLevel = (LevelParent) nextLevelClass
+								.getConstructor(double.class, double.class)
+								.newInstance(stage.getHeight(), stage.getWidth());
+
+						stage.setScene(nextLevel.initializeScene());
+						nextLevel.startGame();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+		);
+	}
+
+	private void showTransitionScreen(Stage stage, String imagePath, Duration duration, Runnable onComplete) {
+		ImageView transitionImage = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
+		transitionImage.setFitWidth(stage.getWidth());
+		transitionImage.setFitHeight(stage.getHeight());
+		transitionImage.setPreserveRatio(false);
+
+		Pane transitionPane = new Pane(transitionImage);
+		Scene transitionScene = new Scene(transitionPane);
+
+		stage.setScene(transitionScene);
+		stage.show();
+
+		PauseTransition pause = new PauseTransition(duration);
+		pause.setOnFinished(e -> onComplete.run());
+		pause.play();
+	}
+
 }
+

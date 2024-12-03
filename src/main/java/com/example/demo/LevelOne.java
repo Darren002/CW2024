@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 public class LevelOne extends LevelParent {
 	
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
@@ -18,11 +21,16 @@ public class LevelOne extends LevelParent {
 		if (userIsDestroyed()) {
 			timeline.stop();
 			loseGame();
-		}
-		else if (userHasReachedKillTarget()){
+		} else if (userHasReachedKillTarget()) {
 			timeline.stop();
-			goToNextLevel(NEXT_LEVEL);
 
+			Stage stage = (Stage) getRoot().getScene().getWindow();
+			transitionToNextLevel(
+					stage,
+					"com.example.demo.LevelTwo",
+					"/com/example/demo/images/leveltwo.jpg",
+					Duration.seconds(3)
+			);
 		}
 	}
 

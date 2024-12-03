@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import javafx.scene.image.ImageView;
-
 public class BonusLevel extends LevelParent{
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
     private static final int PLAYER_INITIAL_HEALTH = 7;

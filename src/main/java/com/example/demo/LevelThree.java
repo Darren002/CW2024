@@ -1,11 +1,13 @@
 package com.example.demo;
 
-public class LevelThree extends LevelParent{
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+public class LevelThree extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
-    private static final String NEXT_LEVEL = "com.example.demo.LevelFour";
-    private static final int TOTAL_ENEMIES = 7;
-    private static final int KILLS_TO_ADVANCE = 20;
+    private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
+    private static final int TOTAL_ENEMIES = 9;
+    private static final int KILLS_TO_ADVANCE = 25;
     private static final double ENEMY_SPAWN_PROBABILITY = .20;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
@@ -18,11 +20,16 @@ public class LevelThree extends LevelParent{
         if (userIsDestroyed()) {
             timeline.stop();
             loseGame();
-        }
-        else if (userHasReachedKillTarget()){
+        } else if (userHasReachedKillTarget()) {
             timeline.stop();
-            goToNextLevel(NEXT_LEVEL);
 
+            Stage stage = (Stage) getRoot().getScene().getWindow();
+            transitionToNextLevel(
+                    stage,
+                    "com.example.demo.LevelBoss",
+                    "/com/example/demo/images/bosslevel.jpg",
+                    Duration.seconds(3)
+            );
         }
     }
 
