@@ -30,7 +30,8 @@ public class LevelTwo extends LevelParent {
             timeline.stop();
 
             showLevelClearedMessage();
-
+            hideBurstReadyText();
+            canShoot=false;
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(e -> {
                 Stage stage = (Stage) getRoot().getScene().getWindow();
@@ -79,7 +80,7 @@ public class LevelTwo extends LevelParent {
 
         getRoot().getChildren().add(levelClearedMessage);
 
-        TranslateTransition shimmerTransition = new TranslateTransition(Duration.seconds(1), levelClearedMessage);
+        TranslateTransition shimmerTransition = new TranslateTransition(Duration.seconds(5), levelClearedMessage);
         shimmerTransition.setFromX(-textWidth);
         shimmerTransition.setToX(super.getScreenWidth());
         shimmerTransition.setCycleCount(TranslateTransition.INDEFINITE);

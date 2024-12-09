@@ -28,7 +28,8 @@ public class LevelThree extends LevelParent {
             timeline.stop();
 
             showLevelClearedMessage();
-
+            hideBurstReadyText();
+            canShoot=false;
             PauseTransition pause = new PauseTransition(Duration.seconds(3));
             pause.setOnFinished(e -> {
                 Stage stage = (Stage) getRoot().getScene().getWindow();
@@ -36,7 +37,7 @@ public class LevelThree extends LevelParent {
                         stage,
                         NEXT_LEVEL,
                         "/com/example/demo/images/bosslevel.jpg",
-                        Duration.seconds(3)
+                        Duration.seconds(5)
                 );
             });
             pause.play();

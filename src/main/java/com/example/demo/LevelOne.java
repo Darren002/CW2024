@@ -33,7 +33,8 @@ public class LevelOne extends LevelParent {
 			timeline.stop();
 
 			showLevelClearedMessage();
-
+			hideBurstReadyText();
+			canShoot=false;
 			PauseTransition pause = new PauseTransition(Duration.seconds(3));
 			pause.setOnFinished(e -> {
 				Stage stage = (Stage) getRoot().getScene().getWindow();
@@ -81,7 +82,7 @@ public class LevelOne extends LevelParent {
 
 		getRoot().getChildren().add(levelClearedMessage);
 
-		RotateTransition rotateTransition = new RotateTransition(Duration.seconds(2), levelClearedMessage);
+		RotateTransition rotateTransition = new RotateTransition(Duration.seconds(5), levelClearedMessage);
 		rotateTransition.setByAngle(360);
 		rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
 		rotateTransition.setAutoReverse(true);

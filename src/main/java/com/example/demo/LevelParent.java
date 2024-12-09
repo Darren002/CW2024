@@ -49,7 +49,7 @@ public abstract class LevelParent extends Observable {
 
 	private boolean spacebarPressed = false;
 	private boolean bKeyPressed = false;
-	private boolean canShoot = true;
+	protected boolean canShoot = true;
 	private Text burstReadyText;
 	private Timeline blinkAnimation;
 	private Text pauseText;
@@ -342,6 +342,8 @@ public abstract class LevelParent extends Observable {
 		stopBackgroundMusic();
 		getRoot().getChildren().remove(backgroundMusicClip);
 		getRoot().getChildren().remove(burstReadyText);
+		hideBurstReadyText();
+		canShoot=false;
 		levelView.showWinImage();
 	}
 
@@ -349,6 +351,8 @@ public abstract class LevelParent extends Observable {
 		timeline.stop();
 		stopBackgroundMusic();
 		getRoot().getChildren().remove(backgroundMusicClip);
+		hideBurstReadyText();
+		canShoot=false;
 		levelView.showGameOverImage();
 	}
 
@@ -421,7 +425,7 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
-	private void hideBurstReadyText() {
+	protected void hideBurstReadyText() {
 		burstReadyText.setVisible(false);
 		blinkAnimation.stop();
 	}

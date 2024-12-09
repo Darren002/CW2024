@@ -34,7 +34,8 @@ public class LevelBoss extends LevelParent {
 		 else if (boss.isDestroyed()) {
 			timeline.stop();
 			showLevelClearedMessage();
-
+			hideBurstReadyText();
+			canShoot=false;
 			PauseTransition pause = new PauseTransition(Duration.seconds(3));
 			pause.setOnFinished(e -> {
 				Stage stage = (Stage) getRoot().getScene().getWindow();
