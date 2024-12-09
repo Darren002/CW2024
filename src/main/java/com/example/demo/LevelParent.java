@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
@@ -18,7 +19,9 @@ import javafx.animation.PauseTransition;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 
 public abstract class LevelParent extends Observable {
@@ -52,6 +55,7 @@ public abstract class LevelParent extends Observable {
 	private Text pauseText;
 	private boolean isPaused = false;
 	protected Stage stage;
+	private Clip backgroundMusicClip;
 
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
@@ -93,6 +97,21 @@ public abstract class LevelParent extends Observable {
 		initializeBurstReadyText();
 		levelView.showHeartDisplay();
 		return scene;
+	}
+
+	protected void initializeBackgroundMusic(String musicFileName) {
+		try {
+			File musicFile = new File(getClass().getResource(musicFileName).toURI());
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicFile);
+
+			backgroundMusicClip = AudioSystem.getClip();
+			backgroundMusicClip.open(audioInputStream);
+
+			backgroundMusicClip.loop(Clip.LOOP_CONTINUOUSLY);
+			backgroundMusicClip.start();
+		} catch (Exception e) {
+			System.out.println("Error initializing background music: " + e.getMessage());
+		}
 	}
 
 	public void startGame() {
@@ -320,13 +339,24 @@ public abstract class LevelParent extends Observable {
 
 	protected void winGame() {
 		timeline.stop();
+		stopBackgroundMusic();
+		getRoot().getChildren().remove(backgroundMusicClip);
 		getRoot().getChildren().remove(burstReadyText);
 		levelView.showWinImage();
 	}
 
 	protected void loseGame() {
 		timeline.stop();
+		stopBackgroundMusic();
+		getRoot().getChildren().remove(backgroundMusicClip);
 		levelView.showGameOverImage();
+	}
+
+	private void stopBackgroundMusic() {
+		if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
+			backgroundMusicClip.stop();
+			backgroundMusicClip.close();
+		}
 	}
 
 	protected UserPlane getUser() {
