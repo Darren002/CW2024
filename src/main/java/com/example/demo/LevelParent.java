@@ -22,9 +22,8 @@ import javafx.stage.Stage;
 
 
 public abstract class LevelParent extends Observable {
-
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 50;
+	private static final int MILLISECOND_DELAY = 30;
 	private static final double BURST_COOLDOWN_TIME = 4.0;
 
 	private final double screenHeight;
@@ -77,7 +76,7 @@ public abstract class LevelParent extends Observable {
 	private void initializePauseUI() {
 		pauseText = new Text("PAUSED");
 		pauseText.setFill(Color.WHITE);
-		pauseText.setFont(loadRetroFont(70));
+		pauseText.setFont(RetroFont(70));
 		pauseText.setVisible(false);
 		pauseText.setX(screenWidth / 2 - pauseText.getLayoutBounds().getWidth() / 2);
 		pauseText.setY(screenHeight / 2 + pauseText.getLayoutBounds().getHeight() / 4);
@@ -99,11 +98,6 @@ public abstract class LevelParent extends Observable {
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
-	}
-
-	public void goToNextLevel(String levelName) {
-		setChanged();
-		notifyObservers(levelName);
 	}
 
 	private void updateScene() {
@@ -360,6 +354,10 @@ public abstract class LevelParent extends Observable {
 		return screenWidth;
 	}
 
+	protected double getScreenHeight() {
+		return screenHeight;
+	}
+
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
 	}
@@ -371,7 +369,7 @@ public abstract class LevelParent extends Observable {
 	private void initializeBurstReadyText() {
 		burstReadyText = new Text("BURST READY! PRESS [B]");
 		burstReadyText.setFill(Color.LIGHTGREEN);
-		burstReadyText.setFont(loadRetroFont(20));
+		burstReadyText.setFont(RetroFont(20));
 		burstReadyText.setX((screenWidth - burstReadyText.getLayoutBounds().getWidth()) / 2);
 		burstReadyText.setY(50);
 		burstReadyText.setVisible(true);
@@ -397,7 +395,7 @@ public abstract class LevelParent extends Observable {
 		burstReadyText.setVisible(false);
 		blinkAnimation.stop();
 	}
-	private Font loadRetroFont(double size) {
+	public Font RetroFont(double size) {
 		try {
 			URL fontURL = getClass().getResource("/Fonts/font.ttf");
 			if (fontURL != null) {
@@ -426,7 +424,7 @@ public abstract class LevelParent extends Observable {
 						stage.setScene(nextLevel.initializeScene());
 						nextLevel.startGame();
 					} catch (Exception e) {
-						e.printStackTrace();
+
 					}
 				}
 		);
@@ -448,6 +446,5 @@ public abstract class LevelParent extends Observable {
 		pause.setOnFinished(e -> onComplete.run());
 		pause.play();
 	}
-
 }
 
