@@ -6,7 +6,7 @@ public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
 	private static final double Y_UPPER_BOUND = 25;
-	private static final double Y_LOWER_BOUND = 600.0;
+	private static final double Y_LOWER_BOUND = 680.0;
 	private static final double INITIAL_X_POSITION = 5.0;
 	private static final double INITIAL_Y_POSITION = 300.0;
 	private static final int IMAGE_HEIGHT = 150;
