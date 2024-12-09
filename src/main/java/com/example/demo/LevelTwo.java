@@ -1,12 +1,16 @@
 package com.example.demo;
 
+import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class LevelTwo extends LevelParent{
+public class LevelTwo extends LevelParent {
 
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
-    private static final String NEXT_LEVEL = "com.example.demo.LevelFour";
+    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/newbackground.jpg";
+    private static final String NEXT_LEVEL = "com.example.demo.LevelThree";
     private static final int TOTAL_ENEMIES = 7;
     private static final int KILLS_TO_ADVANCE = 20;
     private static final double ENEMY_SPAWN_PROBABILITY = .20;
@@ -24,13 +28,19 @@ public class LevelTwo extends LevelParent{
         } else if (userHasReachedKillTarget()) {
             timeline.stop();
 
-            Stage stage = (Stage) getRoot().getScene().getWindow();
-            transitionToNextLevel(
-                    stage,
-                    "com.example.demo.LevelThree",
-                    "/com/example/demo/images/levelthree.jpg",
-                    Duration.seconds(3)
-            );
+            showLevelClearedMessage();
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(e -> {
+                Stage stage = (Stage) getRoot().getScene().getWindow();
+                transitionToNextLevel(
+                        stage,
+                        NEXT_LEVEL,
+                        "/com/example/demo/images/levelthree.jpg",
+                        Duration.seconds(3)
+                );
+            });
+            pause.play();
         }
     }
 
@@ -50,6 +60,24 @@ public class LevelTwo extends LevelParent{
                 addEnemyUnit(newEnemy);
             }
         }
+    }
+    private void showLevelClearedMessage() {
+        Text levelClearedMessage = new Text("Level Cleared!");
+        levelClearedMessage.setFont(super.RetroFont(60));
+        levelClearedMessage.setFill(Color.GHOSTWHITE);
+        double textWidth = levelClearedMessage.getBoundsInLocal().getWidth();
+        double textHeight = levelClearedMessage.getBoundsInLocal().getHeight();
+        levelClearedMessage.setX((super.getScreenWidth() - textWidth) / 2);
+        levelClearedMessage.setY((super.getScreenHeight() + textHeight) / 2);
+
+        getRoot().getChildren().add(levelClearedMessage);
+
+        TranslateTransition shimmerTransition = new TranslateTransition(Duration.seconds(1), levelClearedMessage);
+        shimmerTransition.setFromX(-textWidth);
+        shimmerTransition.setToX(super.getScreenWidth());
+        shimmerTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        shimmerTransition.setAutoReverse(true);
+        shimmerTransition.play();
     }
 
     @Override

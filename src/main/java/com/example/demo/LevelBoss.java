@@ -1,5 +1,12 @@
 package com.example.demo;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+
 public class LevelBoss extends LevelParent {
 
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
@@ -26,7 +33,19 @@ public class LevelBoss extends LevelParent {
 		}
 		 else if (boss.isDestroyed()) {
 			timeline.stop();
-			goToNextLevel(NEXT_LEVEL);
+			showLevelClearedMessage();
+
+			PauseTransition pause = new PauseTransition(Duration.seconds(3));
+			pause.setOnFinished(e -> {
+				Stage stage = (Stage) getRoot().getScene().getWindow();
+				transitionToNextLevel(
+						stage,
+						NEXT_LEVEL,
+						"/com/example/demo/images/bonuslevel.jpg",
+						Duration.seconds(3)
+				);
+			});
+			pause.play();
 		}
 	}
 
@@ -43,5 +62,22 @@ public class LevelBoss extends LevelParent {
 		levelView = new LevelViewBoss(getRoot(), PLAYER_INITIAL_HEALTH);
 		return levelView;
 	}
+	private void showLevelClearedMessage() {
+		Text levelClearedMessage = new Text("Level Cleared!");
+		levelClearedMessage.setFont(super.RetroFont(60));
+		levelClearedMessage.setFill(Color.GHOSTWHITE);
+		double textWidth = levelClearedMessage.getBoundsInLocal().getWidth();
+		double textHeight = levelClearedMessage.getBoundsInLocal().getHeight();
+		levelClearedMessage.setX((super.getScreenWidth() - textWidth) / 2);
+		levelClearedMessage.setY((super.getScreenHeight() + textHeight) / 2);
 
+		getRoot().getChildren().add(levelClearedMessage);
+
+		FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5), levelClearedMessage);
+		fadeTransition.setFromValue(1.0);
+		fadeTransition.setToValue(0.0);
+		fadeTransition.setCycleCount(FadeTransition.INDEFINITE);
+		fadeTransition.setAutoReverse(true);
+		fadeTransition.play();
+	}
 }
