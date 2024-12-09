@@ -15,6 +15,7 @@ public class LevelTwo extends LevelParent {
     private static final int KILLS_TO_ADVANCE = 20;
     private static final double ENEMY_SPAWN_PROBABILITY = .20;
     private static final int PLAYER_INITIAL_HEALTH = 5;
+    private Text killtracker;
 
     public LevelTwo(double screenHeight, double screenWidth) {
         super(BACKGROUND_IMAGE_NAME, screenHeight, screenWidth, PLAYER_INITIAL_HEALTH);
@@ -48,6 +49,12 @@ public class LevelTwo extends LevelParent {
     @Override
     protected void initializeFriendlyUnits() {
         getRoot().getChildren().add(getUser());
+        killtracker = new Text("KILLTRACKER:"+ user.getNumberOfKills());
+        killtracker.setFill(Color.HONEYDEW);
+        killtracker.setFont(RetroFont(23));
+        killtracker.setX(screenWidth - 400);
+        killtracker.setY(75);
+        getRoot().getChildren().add(killtracker);
     }
 
     @Override
@@ -89,4 +96,9 @@ public class LevelTwo extends LevelParent {
         return getUser().getNumberOfKills() >= KILLS_TO_ADVANCE;
     }
 
+    @Override
+    protected void updateKillCount(){
+        super.updateKillCount();
+        killtracker.setText("KILLTRACKER: "+user.getNumberOfKills());
+    }
 }

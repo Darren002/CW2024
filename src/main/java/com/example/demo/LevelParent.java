@@ -27,12 +27,12 @@ public abstract class LevelParent extends Observable {
 	private static final double BURST_COOLDOWN_TIME = 4.0;
 
 	private final double screenHeight;
-	private final double screenWidth;
+	protected final double screenWidth;
 	private final double enemyMaximumYPosition;
 
 	private final Group root;
 	protected final Timeline timeline;
-	private final UserPlane user;
+	protected final UserPlane user;
 	private final Scene scene;
 	private final ImageView background;
 
@@ -308,7 +308,7 @@ public abstract class LevelParent extends Observable {
 		levelView.removeHearts(user.getHealth());
 	}
 
-	private void updateKillCount() {
+	protected void updateKillCount() {
 		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
 			user.incrementKillCount();
 		}
