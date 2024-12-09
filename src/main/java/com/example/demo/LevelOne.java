@@ -3,14 +3,13 @@ package com.example.demo;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class LevelOne extends LevelParent {
 	
-	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/newbackground.jpg";
+	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/arctic.png";
 	private static final String NEXT_LEVEL = "com.example.demo.LevelTwo";
 	private static final int TOTAL_ENEMIES = 5;
 	private static final int KILLS_TO_ADVANCE = 10;

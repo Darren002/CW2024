@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 public class LevelTwo extends LevelParent {
 
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/newbackground.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/desert.png";
     private static final String NEXT_LEVEL = "com.example.demo.LevelThree";
     private static final int TOTAL_ENEMIES = 7;
     private static final int KILLS_TO_ADVANCE = 20;

@@ -1,7 +1,7 @@
 package com.example.demo;
 
 public class BonusLevel extends LevelParent{
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/bonusbackground.jpg";
     private static final int PLAYER_INITIAL_HEALTH = 7;
 
     private final Boss boss1;
