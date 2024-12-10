@@ -1,4 +1,7 @@
-package com.example.demo;
+package com.example.demo.levels;
+import com.example.demo.objects.ActiveActorDestructible;
+import com.example.demo.objects.EnemyPlane;
+import com.example.demo.LevelView;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
 import javafx.scene.paint.Color;
@@ -8,7 +11,7 @@ import javafx.util.Duration;
 
 public class LevelThree extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/jungle.png";
-    private static final String NEXT_LEVEL = "com.example.demo.LevelBoss";
+    private static final String NEXT_LEVEL = "com.example.demo.levels.LevelBoss";
     private static final int TOTAL_ENEMIES = 9;
     private static final int KILLS_TO_ADVANCE = 25;
     private static final double ENEMY_SPAWN_PROBABILITY = .20;

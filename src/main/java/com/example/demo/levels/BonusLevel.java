@@ -1,4 +1,8 @@
-package com.example.demo;
+package com.example.demo.levels;
+
+import com.example.demo.BonusLevelView;
+import com.example.demo.objects.Boss;
+import com.example.demo.LevelView;
 
 public class BonusLevel extends LevelParent{
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/bonusbackground.jpg";

@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.objects;
 
+import com.example.demo.HealthBar;
+import com.example.demo.ShieldImage;
 import javafx.scene.shape.Rectangle;
 
 import java.util.*;

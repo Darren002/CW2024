@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.levels;
 
+import com.example.demo.objects.Boss;
+import com.example.demo.LevelView;
+import com.example.demo.LevelViewBoss;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.scene.paint.Color;
@@ -11,7 +14,7 @@ public class LevelBoss extends LevelParent {
 
 	private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/bossbackground.jpg";
 	private static final int PLAYER_INITIAL_HEALTH = 5;
-	private static final String NEXT_LEVEL = "com.example.demo.BonusLevel";
+	private static final String NEXT_LEVEL = "com.example.demo.levels.BonusLevel";
 	private final Boss boss;
 	private LevelViewBoss levelView;
 
