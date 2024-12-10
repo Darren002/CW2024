@@ -52,7 +52,7 @@ public class LevelOne extends LevelParent {
 	protected void initializeFriendlyUnits() {
 		getRoot().getChildren().add(getUser());
 		killtracker = new Text("KILLTRACKER:"+ user.getNumberOfKills());
-		killtracker.setFill(Color.HONEYDEW);
+		killtracker.setFill(Color.PALEVIOLETRED);
 		killtracker.setFont(RetroFont(23));
 		killtracker.setX(screenWidth - 400);
 		killtracker.setY(75);
@@ -73,7 +73,7 @@ public class LevelOne extends LevelParent {
 	private void showLevelClearedMessage() {
 		Text levelClearedMessage = new Text("Level Cleared!");
 		levelClearedMessage.setFont(super.RetroFont(60));
-		levelClearedMessage.setFill(Color.GHOSTWHITE);
+		levelClearedMessage.setFill(Color.PALEVIOLETRED);
 		double textWidth = levelClearedMessage.getBoundsInLocal().getWidth();
 		double textHeight = levelClearedMessage.getBoundsInLocal().getHeight();
 		levelClearedMessage.setX((super.getScreenWidth() - textWidth) / 2);
