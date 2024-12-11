@@ -16,7 +16,7 @@ public class UserPlane extends FighterPlane {
 	private static final double Y_UPPER_BOUND = 25;
 
 	/** The lower boundary for the Y-axis movement. */
-	private static final double Y_LOWER_BOUND = 680.0;
+	private static final double Y_LOWER_BOUND = 500;
 
 	/** The initial X-axis position of the user plane. */
 	private static final double INITIAL_X_POSITION = 5.0;
