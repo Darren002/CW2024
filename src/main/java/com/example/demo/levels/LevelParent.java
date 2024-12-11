@@ -28,8 +28,13 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-
+/**
+ * The abstract class representing the base level in a game. It manages the game loop,
+ * user inputs, actors (friendly and enemy units), projectiles, and collision detection.
+ * It also handles the game's pause functionality, background music, and level progression.
+ */
 public abstract class LevelParent extends Observable {
+
 	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
 	private static final int MILLISECOND_DELAY = 30;
 	private static final double BURST_COOLDOWN_TIME = 4.0;
@@ -61,7 +66,15 @@ public abstract class LevelParent extends Observable {
 	private boolean isPaused = false;
 	protected Stage stage;
 	private Clip backgroundMusicClip;
-
+	/**
+	 * Constructor for LevelParent.
+	 * Initializes the basic game settings, including the user plane, background, and timeline.
+	 *
+	 * @param backgroundImageName Name of the background image file.
+	 * @param screenHeight Height of the game screen.
+	 * @param screenWidth Width of the game screen.
+	 * @param playerInitialHealth Initial health of the player.
+	 */
 	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
 		this.root = new Group();
 		this.scene = new Scene(root, screenWidth, screenHeight);
@@ -82,6 +95,11 @@ public abstract class LevelParent extends Observable {
 		friendlyUnits.add(user);
 		initializePauseUI();
 	}
+
+	/**
+	 * Initializes the user interface elements for the pause functionality, including
+	 * the "PAUSED" text and its positioning on the screen.
+	 */
 	private void initializePauseUI() {
 		pauseText = new Text("PAUSED");
 		pauseText.setFill(Color.WHITE);
@@ -91,11 +109,36 @@ public abstract class LevelParent extends Observable {
 		pauseText.setY(screenHeight / 2 + pauseText.getLayoutBounds().getHeight() / 4);
 	}
 
+	/**
+	 * Initializes the friendly units in the game. This method is abstract and must
+	 * be implemented in subclasses.
+	 */
 	protected abstract void initializeFriendlyUnits();
+
+	/**
+	 * Checks if the game is over. This method is abstract and must be implemented in subclasses.
+	 */
 	protected abstract void checkIfGameOver();
+
+	/**
+	 * Spawns the enemy units in the game. This method is abstract and must be implemented in subclasses.
+	 */
 	protected abstract void spawnEnemyUnits();
+
+	/**
+	 * Instantiates the level view for displaying the game status. This method is abstract and
+	 * must be implemented in subclasses.
+	 *
+	 * @return The level view instance.
+	 */
 	protected abstract LevelView instantiateLevelView();
 
+	/**
+	 * Initializes the scene with the user plane, friendly units, and background. This also sets up the
+	 * user interface elements such as the heart display and burst ready text.
+	 *
+	 * @return The fully initialized game scene.
+	 */
 	public Scene initializeScene() {
 		initializeBackground();
 		initializeFriendlyUnits();
@@ -104,6 +147,11 @@ public abstract class LevelParent extends Observable {
 		return scene;
 	}
 
+	/**
+	 * Starts the game's background music loop.
+	 *
+	 * @param musicFileName The file name of the background music to play.
+	 */
 	protected void initializeBackgroundMusic(String musicFileName) {
 		try {
 			File musicFile = new File(getClass().getResource(musicFileName).toURI());
@@ -119,11 +167,18 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Starts the game loop, which begins updating the scene and playing the timeline animation.
+	 */
 	public void startGame() {
 		background.requestFocus();
 		timeline.play();
 	}
 
+	/**
+	 * Updates the scene by handling actions such as spawning enemies, updating actors, and checking for game over.
+	 * Also includes handling projectiles and collisions.
+	 */
 	private void updateScene() {
 		if (isPaused) {
 			return;
@@ -142,12 +197,20 @@ public abstract class LevelParent extends Observable {
 		checkIfGameOver();
 	}
 
+	/**
+	 * Initializes the timeline that controls the game loop. This timeline runs continuously, updating the scene
+	 * at regular intervals.
+	 */
 	private void initializeTimeline() {
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		KeyFrame gameLoop = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> updateScene());
 		timeline.getKeyFrames().add(gameLoop);
 	}
 
+
+	/**
+	 * Initializes the game background, sets event handlers for key and mouse events, and adds it to the scene.
+	 */
 	private void initializeBackground() {
 		background.setFocusTraversable(true);
 		background.setFitHeight(screenHeight);
@@ -160,6 +223,11 @@ public abstract class LevelParent extends Observable {
 		root.getChildren().add(background);
 	}
 
+	/**
+	 * Handles the key pressed event for user input actions such as movement, shooting, and pausing.
+	 *
+	 * @param e The key event triggered by the user.
+	 */
 	private void handleKeyPressed(KeyEvent e) {
 		KeyCode kc = e.getCode();
 
@@ -194,6 +262,10 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Toggles the pause UI visibility and pauses or resumes the game based on the current state.
+	 * This method updates the "PAUSED" text and pauses/resumes the timeline accordingly.
+	 */
 	private void togglePauseUI() {
 		pauseText.setVisible(isPaused);
 		if (isPaused) {
@@ -207,6 +279,11 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Handles the key released event for user input actions like  movement and shooting.
+	 *
+	 * @param e The key event triggered when a key is released.
+	 */
 	private void handleKeyReleased(KeyEvent e) {
 		KeyCode kc = e.getCode();
 
@@ -223,18 +300,29 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Handles mouse click events to trigger projectile firing.
+	 *
+	 * @param e The mouse event triggered by a click.
+	 */
 	private void handleMouseClick(MouseEvent e) {
 		if (e.getButton() == MouseButton.PRIMARY) {
 			fireProjectile();
 		}
 	}
 
+	/**
+	 * Fires a projectile from the user plane.
+	 */
 	private void fireProjectile() {
 		ActiveActorDestructible projectile = user.fireProjectile();
 		root.getChildren().add(projectile);
 		userProjectiles.add(projectile);
 	}
 
+	/**
+	 * Handles the burst shooting functionality, allowing the user to shoot multiple projectiles.
+	 */
 	private void shootBurst() {
 		int burstCount = 5;
 		int delayBetweenShots = 100;
@@ -262,7 +350,9 @@ public abstract class LevelParent extends Observable {
 		cooldown.play();
 	}
 
-
+	/**
+	 * Generates enemy projectiles and adds them to the scene.
+	 */
 	private void generateEnemyFire() {
 		enemyUnits.forEach(enemy -> spawnEnemyProjectile(((FighterPlane) enemy).fireProjectile()));
 	}
@@ -274,6 +364,9 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Updates the actors' states during each game loop cycle.
+	 */
 	protected void updateActors() {
 		friendlyUnits.forEach(plane -> plane.updateActor());
 		enemyUnits.forEach(enemy -> enemy.updateActor());
@@ -281,6 +374,9 @@ public abstract class LevelParent extends Observable {
 		enemyProjectiles.forEach(projectile -> projectile.updateActor());
 	}
 
+	/**
+	 * Removes destroyed actors from the scene and the corresponding lists.
+	 */
 	private void removeAllDestroyedActors() {
 		removeDestroyedActors(friendlyUnits);
 		removeDestroyedActors(enemyUnits);
@@ -296,18 +392,34 @@ public abstract class LevelParent extends Observable {
 		actors.removeAll(destroyedActors);
 	}
 
+	/**
+	 * Handles the collision between friendly units and enemy units.
+	 */
 	private void handlePlaneCollisions() {
 		handleCollisions(friendlyUnits, enemyUnits);
 	}
 
+	/**
+	 * Handles the collisions between user projectiles and enemy units.
+	 */
 	private void handleUserProjectileCollisions() {
 		handleCollisions(userProjectiles, enemyUnits);
 	}
 
+	/**
+	 * Handles the collisions between enemy projectiles and friendly units.
+	 */
 	private void handleEnemyProjectileCollisions() {
 		handleCollisions(enemyProjectiles, friendlyUnits);
 	}
 
+	/**
+	 * Handles collision detection between two lists of actors, checking if their hitboxes intersect.
+	 * If a collision is detected, the involved actors take damage.
+	 *
+	 * @param actors1 The first list of actors involved in potential collisions.
+	 * @param actors2 The second list of actors involved in potential collisions.
+	 */
 	private void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
 		for (ActiveActorDestructible actor : actors2) {
 			for (ActiveActorDestructible otherActor : actors1) {
@@ -319,6 +431,9 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Handles the logic for when an enemy has penetrated the player's defenses.
+	 */
 	private void handleEnemyPenetration() {
 		for (ActiveActorDestructible enemy : enemyUnits) {
 			if (enemyHasPenetratedDefenses(enemy)) {
@@ -328,20 +443,34 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Updates the level view UI to reflect changes in the game state.
+	 */
 	private void updateLevelView() {
 		levelView.removeHearts(user.getHealth());
 	}
 
+	/**
+	 * Updates the kill count and related game statistics.
+	 */
 	protected void updateKillCount() {
 		for (int i = 0; i < currentNumberOfEnemies - enemyUnits.size(); i++) {
 			user.incrementKillCount();
 		}
 	}
 
+	/**
+	 * Handles enemy units penetrating the user plane's defenses.
+	 */
 	private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
 		return Math.abs(enemy.getTranslateX()) > screenWidth;
 	}
 
+	/**
+	 * Handles the actions required when the player wins the game.
+	 * Stops the game timeline and background music, removes UI elements,
+	 * and displays the win screen.
+	 */
 	protected void winGame() {
 		timeline.stop();
 		stopBackgroundMusic();
@@ -352,6 +481,11 @@ public abstract class LevelParent extends Observable {
 		levelView.showWinImage();
 	}
 
+	/**
+	 * Handles the actions required when the player loses the game.
+	 * Stops the game timeline and background music, removes UI elements,
+	 * and displays the game over screen.
+	 */
 	protected void loseGame() {
 		timeline.stop();
 		stopBackgroundMusic();
@@ -361,6 +495,9 @@ public abstract class LevelParent extends Observable {
 		levelView.showGameOverImage();
 	}
 
+	/**
+	 * Stops the background music if it is currently playing and closes the audio clip.
+	 */
 	private void stopBackgroundMusic() {
 		if (backgroundMusicClip != null && backgroundMusicClip.isRunning()) {
 			backgroundMusicClip.stop();
@@ -368,6 +505,11 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Returns the user-controlled plane in the game.
+	 *
+	 * @return the user's plane.
+	 */
 	protected UserPlane getUser() {
 		return user;
 	}
@@ -376,15 +518,30 @@ public abstract class LevelParent extends Observable {
 		return root;
 	}
 
+	/**
+	 * Gets the current number of active enemy units in the game.
+	 *
+	 * @return the number of enemy units.
+	 */
 	protected int getCurrentNumberOfEnemies() {
 		return enemyUnits.size();
 	}
 
+	/**
+	 * Adds a new enemy unit to the game and displays it on the scene.
+	 *
+	 * @param enemy the enemy unit to add.
+	 */
 	protected void addEnemyUnit(ActiveActorDestructible enemy) {
 		enemyUnits.add(enemy);
 		root.getChildren().add(enemy);
 	}
 
+	/**
+	 * Returns the maximum Y position an enemy can reach in the game.
+	 *
+	 * @return the maximum Y position for enemies.
+	 */
 	protected double getEnemyMaximumYPosition() {
 		return enemyMaximumYPosition;
 	}
@@ -397,14 +554,25 @@ public abstract class LevelParent extends Observable {
 		return screenHeight;
 	}
 
+	/**
+	 * Checks if the user's plane has been destroyed.
+	 *
+	 * @return true if the user's plane is destroyed, false otherwise.
+	 */
 	protected boolean userIsDestroyed() {
 		return user.isDestroyed();
 	}
 
+	/**
+	 * Updates the count of active enemy units in the game.
+	 */
 	private void updateNumberOfEnemies() {
 		currentNumberOfEnemies = enemyUnits.size();
 	}
 
+	/**
+	 * Initializes the burst ready text UI element that shows when the player can shoot a burst of projectiles.
+	 */
 	private void initializeBurstReadyText() {
 		burstReadyText = new Text("BURST READY! PRESS [B]");
 		burstReadyText.setFill(Color.LIGHTGREEN);
@@ -422,7 +590,9 @@ public abstract class LevelParent extends Observable {
 		blinkAnimation.setCycleCount(Timeline.INDEFINITE);
 	}
 
-
+	/**
+	 * Displays the burst ready text when the player can shoot again after the burst cooldown period.
+	 */
 	private void showBurstReadyText() {
 		if (canShoot) {
 			burstReadyText.setVisible(true);
@@ -430,10 +600,20 @@ public abstract class LevelParent extends Observable {
 		}
 	}
 
+	/**
+	 * Hides the burst ready text after the player uses the burst shot and during the cooldown period.
+	 */
 	protected void hideBurstReadyText() {
 		burstReadyText.setVisible(false);
 		blinkAnimation.stop();
 	}
+
+	/**
+	 * Loads a retro-style font from a specified file.
+	 *
+	 * @param size the size of the font.
+	 * @return the loaded font, or a default font if loading fails.
+	 */
 	public Font RetroFont(double size) {
 		try {
 			URL fontURL = getClass().getResource("/Fonts/font.ttf");
@@ -448,6 +628,16 @@ public abstract class LevelParent extends Observable {
 			return Font.font("Arial", size);
 		}
 	}
+
+
+	/**
+	 * Transitions the game to the next level with a screen fade effect.
+	 *
+	 * @param stage the game stage.
+	 * @param nextLevelClassName the class name of the next level.
+	 * @param transitionImagePath the path to the transition image.
+	 * @param transitionDuration the duration of the transition effect.
+	 */
 	protected void transitionToNextLevel(Stage stage, String nextLevelClassName, String transitionImagePath, Duration transitionDuration) {
 		showTransitionScreen(
 				stage,
@@ -469,6 +659,14 @@ public abstract class LevelParent extends Observable {
 		);
 	}
 
+	/**
+	 * Displays a transition screen with an image before progressing to the next level.
+	 *
+	 * @param stage the game stage.
+	 * @param imagePath the path to the transition image.
+	 * @param duration the duration of the transition effect.
+	 * @param onComplete a Runnable to execute after the transition completes.
+	 */
 	private void showTransitionScreen(Stage stage, String imagePath, Duration duration, Runnable onComplete) {
 		ImageView transitionImage = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
 		transitionImage.setFitWidth(stage.getWidth());

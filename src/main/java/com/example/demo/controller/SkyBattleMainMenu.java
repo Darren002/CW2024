@@ -1,3 +1,8 @@
+/**
+ * The SkyBattleMainMenu class is the entry point for the Sky Battle game.
+ * It provides a main menu with options to play the game, view instructions, or exit.
+ * The menu is displayed using JavaFX and includes styled buttons and transitions.
+ */
 package com.example.demo.controller;
 
 import javafx.application.Application;
@@ -12,10 +17,19 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 
+/**
+ * The SkyBattleMainMenu class provides a graphical user interface (GUI) for the main menu of the game.
+ */
 public class SkyBattleMainMenu extends Application {
 
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/mainmenu.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/mainmenu.jpg"; // Path to the background image.
 
+    /**
+     * Starts the JavaFX application and initializes the main menu.
+     *
+     * @param primaryStage the primary stage for the application
+     * @throws Exception if there is an error during initialization
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -65,6 +79,11 @@ public class SkyBattleMainMenu extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Starts the game by transitioning to the first level.
+     *
+     * @param primaryStage the primary stage of the application
+     */
     private void startGame(Stage primaryStage) {
         try {
             showTransitionScreen(
@@ -85,6 +104,11 @@ public class SkyBattleMainMenu extends Application {
         }
     }
 
+    /**
+     * Displays the instructions screen with an option to return to the main menu.
+     *
+     * @param primaryStage the primary stage of the application
+     */
     private void showInstructions(Stage primaryStage) {
         Image instructionImage = new Image(getClass().getResource("/com/example/demo/images/Instruction.jpg").toExternalForm());
         ImageView instructionView = new ImageView(instructionImage);
@@ -107,6 +131,11 @@ public class SkyBattleMainMenu extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Returns the user to the main menu.
+     *
+     * @param primaryStage the primary stage of the application
+     */
     private void returnToMainMenu(Stage primaryStage) {
         try {
             start(primaryStage);
@@ -115,9 +144,23 @@ public class SkyBattleMainMenu extends Application {
         }
     }
 
+    /**
+     * The main entry point for the application.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
+
+    /**
+     * Displays a transition screen for a specified duration and then performs a specified action.
+     *
+     * @param stage      the stage on which the transition screen is displayed
+     * @param imagePath  the path to the image used for the transition screen
+     * @param duration   the duration of the transition
+     * @param onComplete the action to perform after the transition completes
+     */
     private void showTransitionScreen(Stage stage, String imagePath, Duration duration, Runnable onComplete) {
         ImageView transitionImage = new ImageView(new Image(getClass().getResource(imagePath).toExternalForm()));
         transitionImage.setFitWidth(stage.getWidth());
