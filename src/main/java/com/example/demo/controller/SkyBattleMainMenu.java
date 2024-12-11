@@ -33,8 +33,9 @@ public class SkyBattleMainMenu extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        double screenWidth = screenBounds.getWidth();
-        double screenHeight = screenBounds.getHeight();
+        double screenWidth = 1300;
+        double screenHeight = 650;
+        primaryStage.setResizable(false);
 
         Image backgroundImage = new Image(getClass().getResource(BACKGROUND_IMAGE_NAME).toExternalForm());
         ImageView backgroundView = new ImageView(backgroundImage);
@@ -42,16 +43,16 @@ public class SkyBattleMainMenu extends Application {
         backgroundView.setFitHeight(screenHeight);
         backgroundView.setPreserveRatio(false);
 
-        Button playButton = new Button("Play");
-        Button instructionsButton = new Button("Instructions");
+        Button playButton = new Button(".");
+        Button instructionsButton = new Button(".");
         Button exitButton = new Button("Exit");
 
         playButton.setStyle("-fx-background-color: transparent;");
         instructionsButton.setStyle("-fx-background-color: transparent;");
         exitButton.setStyle("-fx-background-color: transparent;");
 
-        playButton.setPrefSize(1000, 220);
-        instructionsButton.setPrefSize(1000, 280);
+        playButton.setPrefSize(1000, 120);
+        instructionsButton.setPrefSize(1000, 170);
         exitButton.setPrefSize(1000, 450);
 
         playButton.setLayoutX(screenWidth / 2 - playButton.getPrefWidth() / 2);
