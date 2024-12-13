@@ -355,8 +355,7 @@
  
 7. Unexpected Problems
 
-		7.1. Time feels not enough
-		7.2 Retro Font doesn’t seem to load on other devices
+		7.1 Retro Font doesn’t seem to load on other devices
 
 8. Features not implemented
    
