@@ -286,11 +286,12 @@
  	6.3.6  Refactored package declaration
      - Moved into objects subpackage for better organization of actor-related classes within the project.
 
-     6.4. ActiveActorDestructible
+ 6.4. ActiveActorDestructible
+ 
 	6.4.1. Enhanced functionality for hitbox
-     -By adding getHitbox(), the destructible actor now explicitly supports integration with systems that rely on hitbox detection.
+     	-By adding getHitbox(), the destructible actor now explicitly supports integration with systems that rely on hitbox detection.
  	6.4.2. Refactored package declaration
-     - Moved into objects subpackage for better organization of actor-related classes within the project.
+     	- Moved into objects subpackage for better organization of actor-related classes within the project.
 
 
 
