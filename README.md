@@ -13,51 +13,61 @@
 3. Implemented and Working Properly
    
         3.1 Added W keys (up) and S key (down) for UserPlane movements
-        3.1.1. UserPlane can now be moved using keys other than the arrow keys, providing users with more diversity and control choices while playing.
+   		3.1.1. UserPlane can now be moved using keys other than the arrow keys, providing users with more diversity and control choices while playing.
+   
         3.2 Added mouse left click to shoot from UserPlane (Innovative Features)
-        3.2.1. Provides user with more comfort as most games use right click to shoot
+        	3.2.1. Provides user with more comfort as most games use right click to shoot
+   
         3.3. Added “KillTracker” to display the killcount to LevelOne, LevelTwo and LevelThree
-        3.3.1. Killtracker was added at the top right of the screen to display how many enemies the user killed
+        	3.3.1. Killtracker was added at the top right of the screen to display how many enemies the user killed
+   
         3.4 Added Boss health Bar in Level Boss and Level Bonus (Innovative Features)
-        3.4.1. Added Health bar to visually display the boss’s health
-        3.4.2 Health bar has turn colour from green (high health) to orange (medium health) and red (low health)
+        	3.4.1. Added Health bar to visually display the boss’s health
+        	3.4.2 Health bar has turn colour from green (high health) to orange (medium health) and red (low health)
+   
         3.5 Added pause to the game
-        3.5.1. User presses p to pause the game.
-        3.5.2. User presses p again to resume the game
+        	3.5.1. User presses p to pause the game.
+        	3.5.2. User presses p again to resume the game
+   
         3.6. Added Audio
-        3.6.1. Added background music to the game
+        	3.6.1. Added background music to the game
+   
         3.7. Added Level Three, Level Boss and Bonus Level
-        3.7.1. Added 3 new levels to the game, expanding from 2 levels to 5 levels.
-        3.7.2. Levels Two and Three are similar to Level One but with more enemies spawned and higher kill requirements:
-        3.7.3 Level Two: 7 enemies spawned; 20 kills required to proceed.
-        3.7.4 Level Three: 9 enemies spawned; 25 kills required to proceed.
-        3.7.5. Level Boss was originally Level Two, now upgraded to a dedicated boss level.
-        3.7.6. Bonus Level is an enhanced version of Level Boss, featuring two bosses instead of one.
-        
+        	3.7.1. Added 3 new levels to the game, expanding from 2 levels to 5 levels.
+        	3.7.2. Levels Two and Three are similar to Level One but with more enemies spawned and higher kill requirements:
+        	3.7.3 Level Two: 7 enemies spawned; 20 kills required to proceed.
+        	3.7.4 Level Three: 9 enemies spawned; 25 kills required to proceed.
+        	3.7.5. Level Boss was originally Level Two, now upgraded to a dedicated boss level.
+        	3.7.6. Bonus Level is an enhanced version of Level Boss, featuring two bosses instead of one.
+   
         3.8. Added Burst feature (Innovative Features)
-        3.8.1. Burst for UserPlane allow users to shoot multiple bullets at once 
-        3.8.2. Press "B" key to activate burst when available
-        3.8.3. Text will be shown at the top center when Burst is available.
-        3.8.4. Burst will shoot out 5 bullets. 
-        3.8.5. Burst has a cooldown of 4 seconds.   
-        3.8.6 Burst text will start to blink when burst is ready but not used 
+        	3.8.1. Burst for UserPlane allow users to shoot multiple bullets at once 
+        	3.8.2. Press "B" key to activate burst when available
+        	3.8.3. Text will be shown at the top center when Burst is available.
+        	3.8.4. Burst will shoot out 5 bullets. 
+        	3.8.5. Burst has a cooldown of 4 seconds.   
+        	3.8.6 Burst text will start to blink when burst is ready but not used
+   
         3.9 Added Main Menu to game called Sky Battle Main Menu
-        3.9.1 Main Menu consists of Three Buttons (Play, Instructions, Exit)
-        3.9.2 The play button starts the game
-        3.9.3 The instruction button leads u to an instruction page. After reading user can close the instruction page and will be directed back to the main menu page
-        3.9.4 The exit button closes the game
+        	3.9.1 Main Menu consists of Three Buttons (Play, Instructions, Exit)
+        	3.9.2 The play button starts the game
+        	3.9.3 The instruction button leads u to an instruction page. After reading user can close the instruction page and will be directed back to the main menu page
+        	3.9.4 The exit button closes the game
+   
         3.10 Added transition screen with a timer
-        3.10.1 Before starting a level, an image will appear displaying the level name, such as "Level One" or "Level Two” and etc that last for 3 seconds.
+        	3.10.1 Before starting a level, an image will appear displaying the level name, such as "Level One" or "Level Two” and etc that last for 3 seconds.
+   
         3.11 Added level Cleared message with different animation for each level 
-        3.11.1 For level one, level two and level 3 a “Level Cleared” message will be displayed when user reaches the number of kills to proceed
-        3.11.2 For level Boss a “Level Cleared” message will be displayed when the boss dies
+        	3.11.1 For level one, level two and level 3 a “Level Cleared” message will be displayed when user reaches the number of kills to proceed
+        	3.11.2 For level Boss a “Level Cleared” message will be displayed when the boss dies
+   
         3.12 Prevention of Spacebar Spamming
-        3.12.1 Implemented a flag (spacebar Pressed) to prevent the user from firing projectiles by holding or rapidly pressing the spacebar.
-        3.12.2  Shooting is only allowed when the spacebar is released and pressed again
+        	3.12.1 Implemented a flag (spacebar Pressed) to prevent the user from firing projectiles by holding or rapidly pressing the spacebar.
+        	3.12.2  Shooting is only allowed when the spacebar is released and pressed again
 
 
 
-4. Implemented but not Working Properly
+5. Implemented but not Working Properly
    
 4.1. Enemy planes that make it to the end of screen is counted as a kill
         4.1.1. Enemy planes should not be counted as kills if they reach the end
