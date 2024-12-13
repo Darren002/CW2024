@@ -343,7 +343,7 @@
  	6.7.3. Refactored package declaration
     	  - Moved into Objects subpackage for better organization
 
-6.6 Boss Projectile
+6.8 Boss Projectile
 
 	 6.8.1. Refactored package declaration
      	   - Moved into Objects subpackage for better organization 
