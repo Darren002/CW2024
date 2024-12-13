@@ -253,8 +253,8 @@
 
   6.2 ShieldImage:
   
-		•The image resource path was corrected in the modified version.The correct path is now "/com/example/demo/images/shield.png", which matches the image filename defined in the IMAGE_NAME constant.
-		•Reason for modification: The code should correctly reference the image used for the shield, so the shield is properly displayed. Using a consistent naming convention ensures that the resources are linked correctly.
+	6.2.1 The image resource path was corrected in the modified version.The correct path is now "/com/example/demo/images/shield.png", which matches the image filename defined in the IMAGE_NAME constant.
+	6.2.2 Reason for modification: The code should correctly reference the image used for the shield, so the shield is properly displayed. Using a consistent naming convention ensures that the resources are linked correctly.
 
 6.3. UserPlane
 
