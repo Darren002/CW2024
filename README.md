@@ -1,6 +1,6 @@
 1. Github: https://github.com/Darren002/CW2024
 
-	2. Compilation Instructions
+2. Compilation Instructions
 
 
 				2.1. Download the zip file from GitHub and extract DarrenRaj_Intellij_21.zip.
