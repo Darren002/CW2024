@@ -190,6 +190,7 @@
 
 Modified Java Class
 6. Modified Java Class
+
 6.1. LevelParent
 
 	6.1.1 Pause Functionality:
