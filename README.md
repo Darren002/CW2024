@@ -353,7 +353,16 @@
      	- So only the front projectle hits the UserPlane counts and not the whole missile
 
  
-	    
+7. Unexpected Problems
+
+		7.1. Time feels not enough
+		7.2 Retro Font doesn’t seem to load on other devices
+
+8. Features not implemented
+   
+		8.1 Different music for win Image and Game Over
+		8.2 Different Background when User wins and when Game Over
+		8.3 Exit button for When User wins and when Game Over
 
 
 
