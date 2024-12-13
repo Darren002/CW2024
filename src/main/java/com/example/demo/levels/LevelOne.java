@@ -2,7 +2,7 @@ package com.example.demo.levels;
 
 import com.example.demo.objects.ActiveActorDestructible;
 import com.example.demo.objects.EnemyPlane;
-import com.example.demo.LevelView;
+import com.example.demo.display.LevelView;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.scene.paint.Color;

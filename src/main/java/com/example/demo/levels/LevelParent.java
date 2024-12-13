@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import com.example.demo.objects.ActiveActorDestructible;
 import com.example.demo.objects.FighterPlane;
-import com.example.demo.LevelView;
+import com.example.demo.display.LevelView;
 import com.example.demo.objects.UserPlane;
 import javafx.animation.*;
 import javafx.scene.Group;

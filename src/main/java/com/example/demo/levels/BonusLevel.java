@@ -1,8 +1,8 @@
 package com.example.demo.levels;
 
-import com.example.demo.BonusLevelView;
+import com.example.demo.display.BonusLevelView;
 import com.example.demo.objects.Boss;
-import com.example.demo.LevelView;
+import com.example.demo.display.LevelView;
 
 /**
  * The BonusLevel class represents a specific level in the game, extending the LevelParent class.

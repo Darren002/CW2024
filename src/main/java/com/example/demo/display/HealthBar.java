@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.display;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;

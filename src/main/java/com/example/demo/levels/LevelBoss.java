@@ -1,8 +1,8 @@
 package com.example.demo.levels;
 
 import com.example.demo.objects.Boss;
-import com.example.demo.LevelView;
-import com.example.demo.LevelViewBoss;
+import com.example.demo.display.LevelView;
+import com.example.demo.display.LevelViewBoss;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.scene.paint.Color;
