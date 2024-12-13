@@ -188,7 +188,6 @@
             - BonusLevelView(Group root, int heartsToDisplay)
             - addImagesToRoot()
 
-Modified Java Class
 6. Modified Java Class
 
 6.1. LevelParent
