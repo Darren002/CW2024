@@ -67,27 +67,33 @@
 
 
 
-5. Implemented but not Working Properly
+4. Implemented but not Working Properly
    
-4.1. Enemy planes that make it to the end of screen is counted as a kill
-        4.1.1. Enemy planes should not be counted as kills if they reach the end
-4.2. Enemy planes are affected by bullets before they are visible in the screen
-        4.2.1. Enemy planes are killed before they are fully seen on screen
-4.3. Pause method not pausing when in countdown.
-        4.3.1. During countdown, when pressed P, it doesnt pause and it continues gameply
-        4.3.2. When press P it should pause the whole game including countdown. 
-4.4 Bounds of Main menu button 
-        4.4.1 The click radius of the button is larger than it’s supposed to be
-4.5 Pause not working during “Level Cleared”
-        4.5.1 When p is pressed during “Level Cleared” message the animation of the message continues
-4.6 Retro Font issue
-        4.6.1 Retro Font doesn’t seem to work in other computers
+		4.1. Enemy planes that make it to the end of screen is counted as a kill
+        		4.1.1. Enemy planes should not be counted as kills if they reach the end
+   
+		4.2. Enemy planes are affected by bullets before they are visible in the screen
+        		4.2.1. Enemy planes are killed before they are fully seen on screen
+   
+		4.3. Pause method not pausing when in countdown.
+       			 4.3.1. During countdown, when pressed P, it doesnt pause and it continues gameply
+       			 4.3.2. When press P it should pause the whole game including countdown.
+   
+		4.4 Bounds of Main menu button 
+   			4.4.1 The click radius of the button is larger than it’s supposed to be
+   
+		4.5 Pause not working during “Level Cleared”
+       			 4.5.1 When p is pressed during “Level Cleared” message the animation of the message continues
+   
+		4.6 Retro Font issue
+   			 4.6.1 Retro Font doesn’t seem to work in other computers
 
 5. New Java Classes
    
-    5.1 Class: LevelTwo
-        5.1.1. Location: com.example.demo.Levels
-        5.1.2 Purpose:
+5.1 Class: LevelTwo
+
+       	 5.1.1. Location: com.example.demo.Levels
+         5.1.2 Purpose:
                Defines the second level of the game, which is essentially the same as level one but with increased enemy on screen and enemy kills required to proceed. The class is responsible for:
                    • Setting up the level environment with a desert-themed background.
                    • Spawning enemy planes based on predefined probabilities and limits.
@@ -95,7 +101,7 @@
                    • Displaying UI elements like a kill tracker for real-time updates.
                    • Handling game-over conditions and transitioning to the next level when the kill target is achieved.
                    • Adding an animated "Level Cleared" message to enhance user experience.
-       5.1.3. Key Methods: 
+       	5.1.3. Key Methods: 
             - checkIfGameOver()
             - spawnEnemyUnits()
             - instantiateLevelView()
@@ -103,7 +109,8 @@
     	    -showLevelClearedMessage()
 	        - initializeFriendlyUnits()
 
-   5.2 Class: LevelTwo
+   5.2 Class: LevelThree
+   
      5.2.1. Location: com.example.demo.Levels
      5.2.2 Purpose:
             Defines the third level of the game, which is essentially the same as level one and level two but with increased enemy on screen and enemy kills required to proceed compared to level two. The class               is responsible for:
@@ -121,16 +128,17 @@
 	       - showLevelClearedMessage()
 	       - initializeFriendlyUnits()
 
-   5.4 Class: LevelBoss (Originally LevelTwo)
-       5.4.1. Location: com.example.demo.Levels
-       5.4.2. Purpose  : 
+   5.3 Class: LevelBoss (Originally LevelTwo)
+   
+       5.3.1. Location: com.example.demo.Levels
+       5.3.2. Purpose  : 
                  Defines the "boss battle" level of the game, where the player confronts a boss enemy. This level focuses on:
                     •	Introducing the boss with unique mechanics, such as a shield and health bar.
                     •	Managing player health and the boss's destruction status.
                     •	Displaying "Game Over" or "Level Cleared" messages based on outcomes.
                     •	Handling transitions to a bonus level upon defeating the boss.
                     •	Enhancing gameplay with a visually appealing background and effects.
-       5.4.3. Key Methods: 
+       5.3.3. Key Methods: 
                      - initializeFriendlyUnits()
                      - checkIfGameOver()
                      - spawnEnemyUnits()
@@ -138,9 +146,10 @@
                      - updateShieldPosition()
 	                 - showLevelClearedMessage()
 
-5.5 Class:BonusLevel 
-     5.5.1. Location: com.example.demo.levels
-     5.5.2. Purpose  :
+5.4 Class: BonusLevel 
+
+     5.4.1. Location: com.example.demo.levels
+     5.4.2. Purpose  :
              Defines the "bonus level" of the game, featuring a unique setup with two bosses. This level focuses on:
                     •	Managing interactions between the player and two bosses simultaneously.
                     •	Ensuring smooth gameplay by preventing boss overlap.
@@ -148,32 +157,34 @@
                     •	Checking win/loss conditions and updating actors dynamically.
                     • Enhancing gameplay with a visually appealing background and effects.
                     • Handle game over and win conditions based on the boss's status.
-    5.5.3. Key Methods: 
+    5.4.3. Key Methods: 
                      - initializeFriendlyUnits()
                      - checkIfGameOver()
                      - spawnEnemyUnits()
                      - instantiateLevelView()
 	                 -update actors()
 
-5.6 Class: Healthbar 
-     5.6.1. Location: com.example.demo.Healthbar.java
-     5.6.2. Purpose  :
+5.5 Class: Healthbar 
+
+     5.5.1. Location: com.example.demo.Healthbar.java
+     5.5.2. Purpose  :
             Defines a health bar for visual representation of the player's health, with a dynamic width and color that changes based on the current health. This class focuses on:
-                •	Displaying a graphical health bar with two rectangles: one for the background and one for the health.
-                •	Dynamically adjusting the health bar's width based on the current health relative to the maximum health.
-                •	Changing the health bar's color to reflect health status: green for high health, orange for medium health, and red for low health.
-     5.6.3. Key Methods: 
+                •  Displaying a graphical health bar with two rectangles: one for the background and one for the health.
+                •  Dynamically adjusting the health bar's width based on the current health relative to the maximum health.
+                •  Changing the health bar's color to reflect health status: green for high health, orange for medium health, and red for low health.
+     5.5.3. Key Methods: 
         - HealthBar(double width, double height)
         - updateHealth(double currentHealth, double maxHealth)
 
-5.7 Class: BonusLevelView Class
-     5.7.1. Location: com.example.demo.BonusLevelView.java
-     5.7.2. Purpose  :
+5.6 Class: BonusLevelView Class
+
+     5.6.1. Location: com.example.demo.BonusLevelView.java
+     5.6.2. Purpose  :
             Defines the visual components of the bonus level in the game, adding specific shield images for the two boss characters. This class:
-                •	Extends the LevelView class to inherit general level components.
-                •	Initializes and places the shields for the bosses at specified screen positions.
-                •	Adds the shield images to the root container for display during the bonus level.
-     5.7.3. Key Methods: 
+                •  Extends the LevelView class to inherit general level components.
+                •  Initializes and places the shields for the bosses at specified screen positions.
+                •  Adds the shield images to the root container for display during the bonus level.
+     5.6.3. Key Methods: 
             - BonusLevelView(Group root, int heartsToDisplay)
             - addImagesToRoot()
 
