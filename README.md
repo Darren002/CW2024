@@ -188,7 +188,112 @@
             - BonusLevelView(Group root, int heartsToDisplay)
             - addImagesToRoot()
 
-			
+Modified Java Class
+6. Modified Java Class
+6.1. LevelParent
+
+	6.1.1 Pause Functionality:
+	• Added pauseText: A text element was added to display a "PAUSED" message when the game is paused.
+	• Introduced togglePauseUI(): This method toggles between pausing and resuming the game when the P key is pressed. It updates the visibility of the pause text and controls the game’s timeline to pause or resume game updates.
+	Reason for modification: Pausing functionality is a crucial feature for many games, allowing the player to take breaks or pause for strategic reasons without losing progress.
+ 
+	6.1.2 Burst Fire Mechanism:
+		• Modified Burst Fire Logic:
+		• Cooldown Implementation: A cooldown was added for burst fire functionality. This ensures that the player cannot shoot continuously in bursts without a delay.
+		• shootBurst() Method: Refined the burst fire logic by adding a Timeline to manage multiple shots in quick succession. The burst consists of 5 shots with a 100ms delay between each. The player cannot shoot again until the cooldown time (BURST_COOLDOWN_TIME, set to 4 seconds) is complete.
+	Reason for modification: Burst fire adds a fun mechanic to the game, encouraging strategic use of the player's ammo while preventing spam.
+ 
+	6.1.3 Background Music:
+		 •initializeBackgroundMusic(): A method was added to initialize background music. It uses the Clip class to continuously loop a music file during the game.
+		 Reason for modification: Background music enhances the gaming experience.
+	6.1.4 Key Handling Modifications:
+		• Movement and Shooting:
+		• handleKeyPressed(): Updated to handle player movement and shooting logic, including the burst fire functionality when the B key is pressed. The cooldown for burst fire is respected here.
+		• handleKeyReleased(): Modified to stop the player's movement when the respective keys (arrow keys or W/S) are released. Also ensures that keys like Spacebar and B are reset upon release.
+		• Mouse Clicks for Shooting:
+		• Added handleMouseClick() to trigger firing projectiles when the mouse is clicked.
+	Reason for modification: These changes provide more input flexibility, allowing the player to control the game through both the keyboard and mouse.
+
+	6.1.5. Projectile and Enemy Fire Handling:
+		• Refined Projectile Firing:
+		• fireProjectile(): Created a method to spawn projectiles when the Spacebar is pressed or the mouse is clicked.
+		• Enemy Projectiles:
+		• generateEnemyFire(): A method was added to spawn enemy projectiles, handling their firing logic when enemies shoot at the player.
+	Reason for modification: Separated projectile creation into its own method for better readability and code reuse. Additionally, handling enemy fire is necessary to create a challenging gameplay environment.
+	
+	6.1.6 Collision Handling:
+		• Refined Collision Logic:
+		• handleCollisions(): Refactored the collision detection logic to make it reusable. This method checks for intersections between hitboxes of friendly units, enemy units, and projectiles.
+		• Specific Collision Methods:
+		• handlePlaneCollisions(): Detects collisions between the player’s plane and enemy planes.
+		• handleUserProjectileCollisions(): Detects when player projectiles hit enemies.
+		• handleEnemyProjectileCollisions(): Detects when enemy projectiles hit the player.
+	Reason for modification: Collision handling is crucial for ensuring that the game mechanics function correctly, such as when projectiles hit enemies or the player.
+ 
+	6.1.7 UI Initialization:
+		• UI Setup in Constructor:
+		• initializePauseUI(): Called to initialize the UI related to the pause functionality.
+		• initializeTimeline(): Sets up the game loop to update the game scene.
+	Reason for modification: Proper initialization of UI elements and game loop ensures that the game operates smoothly from the start.
+	6.1.8 Scene Initialization:
+		• UI Elements Setup:
+		• initializeScene(): A method that initializes various UI elements, such as the game background, friendly units, and the text showing the burst readiness.
+	Reason for modification: This ensures that all necessary components of the scene are initialized when the game begins.
+
+	6.1.9. Refactored package declaration
+    		 • Moved into levels subpackage for better organization of levels-related classes within the project.
+
+
+
+	6.1.10 Transition Screen:
+		• Transition Screen Setup:
+		• showTransitionScreen(Stage stage, String imagePath, Duration duration, Runnable onComplete): Displays a transition screen before the game play begins.
+		• Reason for Modification:
+		• Transition screens are used to introduce the game, set the tone, and give players time to prepare for the gameplay. It also provides a smooth, professional introduction to the game experience.
+
+  6.2 ShieldImage:
+  
+		•The image resource path was corrected in the modified version.The correct path is now "/com/example/demo/images/shield.png", which matches the image filename defined in the IMAGE_NAME constant.
+		•Reason for modification: The code should correctly reference the image used for the shield, so the shield is properly displayed. Using a consistent naming convention ensures that the resources are linked correctly.
+
+6.3. UserPlane
+
+	6.3.1 Movement and Interaction:
+		• Added velocityMultiplier and numberOfKills properties:
+		• Introduced properties to manage the plane’s vertical movement and track the number of kills made.
+		• Introduced moveUp(), moveDown(), stop() methods:
+		• These methods control the vertical movement of the user plane (up, down, or stop).
+	Reason for modification: Movement is essential for player interaction with the game. These changes enable the user to control the plane's vertical movement and enhance gameplay.
+ 
+	6.3.2 Collision Detection:
+		• Added hitbox property:
+		• A Rectangle hitbox was added to detect collisions.
+		• Updated updateHitbox() method:
+		• This method adjusts the position of the hitbox to align with the user plane's updated position.
+	Reason for modification: Collision detection is essential to ensure the user plane interacts correctly with other game objects, such as projectiles or enemies.
+ 
+	6.3.4 Kill Tracking:
+		• Tracks how many kills the user plane has made.
+		• Introduced incrementKillCount() method:
+		• Increases the kill count by 1 when the player destroys an enemy.
+	Reason for modification: Tracking kills adds a progression element to the game, rewarding the player for their achievements.
+ 
+	6.3.5 Boundaries and Movement Control:
+		• Updated Y-axis movement boundaries (Y_UPPER_BOUND, Y_LOWER_BOUND):
+		• Fine-tuned the vertical movement limits of the user plane to ensure smoother gameplay.
+	Reason for modification: Controlling movement within bounds ensures that the user plane doesn’t go out of view, improving the overall user experience.
+ 
+ 	6.3.6  Refactored package declaration
+     - Moved into objects subpackage for better organization of actor-related classes within the project.
+
+     6.4. ActiveActorDestructible
+	6.4.1. Enhanced functionality for hitbox
+     -By adding getHitbox(), the destructible actor now explicitly supports integration with systems that rely on hitbox detection.
+ 	6.4.2. Refactored package declaration
+     - Moved into objects subpackage for better organization of actor-related classes within the project.
+
+
+
 	    
 
 
