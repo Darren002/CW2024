@@ -21,7 +21,7 @@ public class GameOverImage extends ImageView {
 	 */
 	public GameOverImage(double xPosition, double yPosition) {
 		setImage(new Image(getClass().getResource(IMAGE_NAME).toExternalForm()));
-		setLayoutX(xPosition + 190);
-		setLayoutY(yPosition + 20);
+		setLayoutX(xPosition);
+		setLayoutY(yPosition);
 	}
 }
