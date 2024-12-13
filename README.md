@@ -293,8 +293,66 @@
  	6.4.2. Refactored package declaration
      	- Moved into objects subpackage for better organization of actor-related classes within the project.
 
+6.5. Boss
+
+	6.5.1. Package and Class Location Change:
+	• The class was moved to package com.example.demo.objects for better organization.
+ 
+	6.5.2. New Dependencies:
+	• Added imports for HealthBar, ShieldImage, and Rectangle classes.
+	• These were used for adding visual elements related to health and shields.
+ 
+	6.5.3. HealthBar and ShieldImage:
+	• New Variables:
+	• private final ShieldImage shieldImage;
+	• private final HealthBar healthBar;
+	•Purpose: Introduced to handle the visual representation of the boss's shield and health.
+ 
+	6.5.4. Hitbox Implementation:
+	• New Hitbox:
+	• Added private final Rectangle hitbox;
+	• Used for collision detection with the boss's current position.
+	• Hitbox Offset: A constant HITBOX_OFFSET_Y was introduced for better positioning of the hitbox.
+ 
+	6.5.5 Health Bar Update:
+	• Health Bar Logic:
+	• The health bar is updated and positioned dynamically in the updateHealthBar() method.
+	• The health bar now reflects the current health of the boss, with visual updates when damage is taken.
+ 
+	6.5.6. Hitbox Update and Collision Detection:
+	• Updated Hitbox Positioning:
+	• The updateHitbox() method now adjusts the hitbox position according to the boss’s current layout and translation.
+ 
+	6.5.7. Take Damage Method:
+	• The takeDamage() method was adjusted to hide the health bar when the boss's health reaches zero and to stop updating the health.
 
 
+6.6 Enemy Plane
+
+	6.6.1 Added hitbox so its more accurate and planes are affected by missiles that only touching them
+ 	6.6.2. Package and Class Location Change:
+	• The class was moved to package com.example.demo.objects for better organization.
+
+6.7 Enemy Projectle 
+
+	 6.7.1. Hitbox implementations
+    	 - Added hitbox so that is hits the where the UserPlane is rather than the UserPlane full image
+     	
+	 6.7.2. Updates hitbox when the projectile is moving
+
+ 	6.7.3. Refactored package declaration
+    	  - Moved into Objects subpackage for better organization
+
+6.6 Boss Projectile
+
+	 6.8.1. Refactored package declaration
+     	   - Moved into Objects subpackage for better organization 
+	 
+	 6.8.2. Hitbox implementations
+    	 - Added hitbox to increase accuracy
+     	- So only the front projectle hits the UserPlane counts and not the whole missile
+
+ 
 	    
 
 
